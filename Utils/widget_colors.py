@@ -11,4 +11,5 @@ GRAY =  QColor(QWidget.gray)
 GREEN = QColor(QWidget.green)
 RED = QColor(QWidget.red)
 
+
 QUEUE_ENTRY_COLORS = [WHITE, LIGHT_GREEN, LIGHT_YELLOW, LIGHT_RED]

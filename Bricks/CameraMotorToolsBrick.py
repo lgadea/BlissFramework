@@ -90,6 +90,7 @@ from Qub.Objects.QubDrawingCanvasTools import QubCanvasHomotheticRectangle
 
 from Qub.Objects.QubDrawingEvent import QubMoveNPressed1Point
 
+import traceback
 #from CameraMotorToolsFocusStateMachine import FocusState
 
 __category__ = "Camera"
@@ -251,19 +252,27 @@ class CameraMotorToolsBrick(BlissWidget):
         """
         get view
         """
+        
         view = {}
+        logging.getLogger().info("CameraMotorToolsBrick run get View %s" % view)
         self.emit(qt.PYSIGNAL("getView"), (view,))
+        logging.getLogger().info("CameraMotorToolsBrick run view after emit %s" % view)
         try:
             self.drawing = view["drawing"]
             self.view = view["view"]        
         except:
+            logging.getLogger().info("CameraMotorToolsBrick run No View")
+            logging.getLogger().info("CameraMotorToolsBrick %s" % traceback.print_exc())
+            
             print "No View"
         
         """
         get calibration
         """
         calib = {}
+        logging.getLogger().info("CameraMotorToolsBrick get calibration %s" % calib)
         self.emit(qt.PYSIGNAL("getCalibration"), (calib,))
+        logging.getLogger().info("CameraMotorToolsBrick calib after getCalibration emit %s" % calib)
         try:
             # in all this brick we work with pixel calibration in mm
             self.YSize = calib["ycalib"]
@@ -272,17 +281,23 @@ class CameraMotorToolsBrick(BlissWidget):
                 self.YSize = self.YSize * 1000
                 self.ZSize = self.ZSize * 1000
         except:
+            logging.getLogger().info("CameraMotorToolsBrick run No Calibration")
+            logging.getLogger().info("CameraMotorToolsBrick %s" % traceback.print_exc())
             print "No Calibration"
             
         """
         get beam position
         """
         position = {}
+        logging.getLogger().info("CameraMotorToolsBrick get beam position %s" % position)
         self.emit(qt.PYSIGNAL("getBeamPosition"), (position,))
+        logging.getLogger().info("CameraMotorToolsBrick beam position after getBeamPosition emit %s" % position)
         try:
             self.YBeam = position["ybeam"]
             self.ZBeam = position["zbeam"]
         except:
+            logging.getLogger().info("CameraMotorToolsBrick run No Beam Position")
+            logging.getLogger().info("CameraMotorToolsBrick %s" % traceback.print_exc())
             print "No Beam Position"
 
         """
@@ -416,15 +431,15 @@ class CameraMotorToolsBrick(BlissWidget):
             if self.focusAction is None:
                 self.focusAction = QubToggleAction(label='Autofocus',name='autofocus',place=self.focusMode,
                                                    group='Tools',autoConnect = True)
-                qt.QObject.connect(self.focusAction,qt.PYSIGNAL('StateChanged'),self.showFocusGrab)
+                #qt.QObject.connect(self.focusAction,qt.PYSIGNAL('StateChanged'),self.showFocusGrab)
 
             if self.view and self.drawing :
                 self.focusDrawingRectangle,_ = QubAddDrawing(self.drawing,QubPointDrawingMgr,QubCanvasHomotheticRectangle)
                 self.focusDrawingRectangle.setDrawingEvent(QubMoveNPressed1Point)
-                self.focusDrawingRectangle.setKeyPressedCallBack(self.focusRawKeyPressed)
+                #self.focusDrawingRectangle.setKeyPressedCallBack(self.focusRawKeyPressed)
 
                 qt.QObject.connect(self.drawing,qt.PYSIGNAL("ForegroundColorChanged"),self.focusDrawingRectangle.setColor)
-                self.focusDrawingRectangle.setEndDrawCallBack(self.setFocusPointSelected)
+                #self.focusDrawingRectangle.setEndDrawCallBack(self.setFocusPointSelected)
                 self.focusRectangleSize = 12
                 self.focusDrawingRectangle.setWidthNHeight(self.focusRectangleSize,self.focusRectangleSize)
                 self.view.addAction(self.focusAction)
@@ -503,10 +518,12 @@ class CameraMotorToolsBrick(BlissWidget):
     #        self.focusState.start()
             
     def beamPositionChanged(self, beamy, beamz):
+        logging.getLogger().info("CameraMotorToolsBrick beamPositionChanged %s %s"  % (beamy, beamz))
         self.YBeam = beamy
         self.ZBeam = beamz
     
     def pixelCalibrationChanged(self, sizey, sizez):
+        logging.getLogger().info("CameraMotorToolsBrick pixelCalibrationChanged %s %s"  % (sizey, sizez))
         if sizey is not None:
             self.YSize = sizey * 1000
             try:
@@ -548,7 +565,6 @@ class CameraMotorToolsBrick(BlissWidget):
                 (y, z) = drawingMgr.point()
                 
                 self.drawingMgr.stopDrawing()
-
                 sign = 1
                 if self.horMotHwo.unit < 0:
                     sign = -1
