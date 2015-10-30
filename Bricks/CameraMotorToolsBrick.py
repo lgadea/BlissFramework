@@ -252,7 +252,7 @@ class CameraMotorToolsBrick(BlissWidget):
         """
         get view
         """
-        
+ 
         view = {}
         logging.getLogger().info("CameraMotorToolsBrick run get View %s" % view)
         self.emit(qt.PYSIGNAL("getView"), (view,))
@@ -275,11 +275,12 @@ class CameraMotorToolsBrick(BlissWidget):
         logging.getLogger().info("CameraMotorToolsBrick calib after getCalibration emit %s" % calib)
         try:
             # in all this brick we work with pixel calibration in mm
-            self.YSize = calib["ycalib"]
-            self.ZSize = calib["zcalib"]
-            if calib["ycalib"] is not None and calib["zcalib"] is not None:
-                self.YSize = self.YSize * 1000
-                self.ZSize = self.ZSize * 1000
+            #self.YSize = calib["ycalib"]
+            #self.ZSize = calib["zcalib"]
+            #if calib["ycalib"] is not None and calib["zcalib"] is not None:
+            #    self.YSize = self.YSize * 1000
+            #   self.ZSize = self.ZSize * 1000
+	    pass
         except:
             logging.getLogger().info("CameraMotorToolsBrick run No Calibration")
             logging.getLogger().info("CameraMotorToolsBrick %s" % traceback.print_exc())
@@ -293,8 +294,9 @@ class CameraMotorToolsBrick(BlissWidget):
         self.emit(qt.PYSIGNAL("getBeamPosition"), (position,))
         logging.getLogger().info("CameraMotorToolsBrick beam position after getBeamPosition emit %s" % position)
         try:
-            self.YBeam = position["ybeam"]
-            self.ZBeam = position["zbeam"]
+	    pass
+            #self.YBeam = position["ybeam"]
+            #self.ZBeam = position["zbeam"]
         except:
             logging.getLogger().info("CameraMotorToolsBrick run No Beam Position")
             logging.getLogger().info("CameraMotorToolsBrick %s" % traceback.print_exc())
