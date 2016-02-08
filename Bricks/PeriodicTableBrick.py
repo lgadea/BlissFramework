@@ -97,6 +97,7 @@ class PeriodicTableBrick(BlissWidget):
             #self.hole.setEnabled(True)
             self.hole_label.show()
             self.hole.show()
+            self.hole.setCurrentItem(1)
         else:
             #self.hole_label.setEnabled(False)
             #self.hole.setEnabled(False)
