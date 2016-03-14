@@ -49,14 +49,14 @@ class PeriodicTableBrick(BlissWidget):
 
         QHBoxLayout(self)
         self.layout().addWidget(self.topBox)
-    #unused !!
+
     def set_hole(self, edge):
         try:
             index = self.HOLE.index(edge)
         except ValueError:
             index = 0
         self.hole.setCurrentItem(index)
-    
+
     def hole_activated(self, value):
         if value == 3:
             self.current_edge = "L1"
@@ -65,11 +65,11 @@ class PeriodicTableBrick(BlissWidget):
         else:
             self.current_edge = "L3"
         self.periodicTable.tableElementChanged(self.current_element, self.current_edge)
-    #unused !!
+
     def setTableElement(self, element, edge):
         self.periodicTable.tableElementChanged(element, edge)
         self.set_hole(edge)
-    
+
     def propertyChanged(self, property, oldValue, newValue):
         if property == 'mnemonic':
             energy = self.getHardwareObject(newValue)
@@ -95,13 +95,9 @@ class PeriodicTableBrick(BlissWidget):
         if energy != "K":
             #self.hole_label.setEnabled(True)
             #self.hole.setEnabled(True)
-            #self.hole_label.show()
-            #self.hole.show()
-            #self.hole.setCurrentItem(1)
-            self.hole_activated("L3")
-            #self.current_edge = "L3"
-            #self.periodicTable.tableElementChanged(self.current_element, self.current_edge)
-
+            self.hole_label.show()
+            self.hole.show()
+            self.hole.setCurrentItem(1)
         else:
             #self.hole_label.setEnabled(False)
             #self.hole.setEnabled(False)
