@@ -46,9 +46,9 @@ class PeriodicTableBrick(BlissWidget):
         self.periodicTable=myPeriodicTable(self.topBox)
         self.connect(self.periodicTable,PYSIGNAL('edgeSelected'),self.edgeSelected)
         self.instanceSynchronize("periodicTable")
-
         QHBoxLayout(self)
         self.layout().addWidget(self.topBox)
+        self.hole.setCurrentItem(1)
 
     def set_hole(self, edge):
         try:
@@ -97,7 +97,7 @@ class PeriodicTableBrick(BlissWidget):
             #self.hole.setEnabled(True)
             self.hole_label.show()
             self.hole.show()
-            self.hole.setCurrentItem(1)
+            #self.hole.setCurrentItem(1)
         else:
             #self.hole_label.setEnabled(False)
             #self.hole.setEnabled(False)
